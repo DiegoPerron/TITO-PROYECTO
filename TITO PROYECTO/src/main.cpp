@@ -63,54 +63,57 @@ void iniciarTrigger()
   digitalWrite(PinTrig, LOW);
 }
 
-float dist()
+
+
+
+
+void loop()
 {
+
   // Eliminamos la última medida
   total = total - lecturas[lecturaActual];
-
+ 
   iniciarTrigger();
-
+ 
   // La función pulseIn obtiene el tiempo que tarda en cambiar entre estados, en este caso a HIGH
   unsigned long tiempo = pulseIn(PinEcho, HIGH);
-
+ 
   // Obtenemos la distancia en cm, hay que convertir el tiempo en segudos ya que está en microsegundos
   // por eso se multiplica por 0.000001
   float distancia = tiempo * 0.000001 * VelSon / 2.0;
-
+ 
   // Almacenamos la distancia en el array
   lecturas[lecturaActual] = distancia;
-
+ 
   // Añadimos la lectura al total
   total = total + lecturas[lecturaActual];
-
+ 
   // Avanzamos a la siguiente posición del array
   lecturaActual = lecturaActual + 1;
-
+ 
   // Comprobamos si hemos llegado al final del array
   if (lecturaActual >= numLecturas)
   {
     primeraMedia = true;
     lecturaActual = 0;
   }
-
+ 
   // Calculamos la media
   media = total / numLecturas;
-
+ 
   // Solo mostramos si hemos calculado por lo menos una media
   if (primeraMedia)
   {
-    distanciaLleno = distanciaVacio - media;
-
+    float distanciaLleno = distanciaVacio - media;
+    
+    Serial.println(media);
+    Serial.print(" cm");
+    
+    
   }
-  return distanciaLleno;
-}
 
-
-
-void loop()
-{
   String T1 = String(scale.get_units(20), 2); // obtener t1P
-  String T2 = String(dist());                  // obtener t2P
+  String T2 = String(distanciaLleno);                  // obtener t2P
 
   Serial.println(T1 + "A" + T2);
   delay(1000);

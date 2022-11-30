@@ -3,8 +3,10 @@
 
 const byte hx711_data_pin = A1;  // DOUT
 const byte hx711_clock_pin = A0; // CLK
-const byte bombpwm1 = 3;         // PWM1
-const byte bombpwm2 = 5;         // PWM2
+const byte bomba1 = 2;
+const byte bomba2 = 3;
+const byte bombpwm1 = 5;         // PWM1
+const byte bombpwm2 = 6;         // PWM2
 HX711 scale;                     // Create an instance of the HX711 class
 char caso;                       // Variable para el switch
 // Configuramos los pines del sensor Trigger y Echo

@@ -104,7 +104,7 @@ void loop()
   // Solo mostramos si hemos calculado por lo menos una media
   if (primeraMedia)
   {
-    float distanciaLleno = distanciaVacio - media;
+    distanciaLleno = distanciaVacio - media;
     
     Serial.println(media);
     Serial.print(" cm");

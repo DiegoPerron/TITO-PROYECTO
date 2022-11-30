@@ -23,6 +23,7 @@ int lecturaActual = 0;       // Lectura por la que vamos
 float total = 0;             // Total de las que llevamos
 float media = 0;             // Media de las medidas
 bool primeraMedia = false;   // Para saber que ya hemos calculado por lo menos una
+float distanciaLleno = 0;    // Distancia lleno
 
 void setup()
 {
@@ -98,10 +99,10 @@ float dist()
   // Solo mostramos si hemos calculado por lo menos una media
   if (primeraMedia)
   {
-    float distanciaLleno = distanciaVacio - media;
+    distanciaLleno = distanciaVacio - media;
 
   }
-  return media;
+  return distanciaLleno;
 }
 
 

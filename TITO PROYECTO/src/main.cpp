@@ -7,6 +7,20 @@ const byte bombpwm1 = 3;  // PWM1
 const byte bombpwm2 = 5;  // PWM2
 HX711 scale;  // Create an instance of the HX711 class
 char caso;  // Variable para el switch
+// Configuramos los pines del sensor Trigger y Echo
+const int PinTrig = 12;
+const int PinEcho = 11;
+// Constante velocidad sonido en cm/s
+const float VelSon = 34000.0;
+// Número de muestras
+const int numLecturas = 20;
+// Distancia a los 100 ml y vacío
+const float distanciaVacio = 30; 
+float lecturas[numLecturas]; // Array para almacenar lecturas
+int lecturaActual = 0; // Lectura por la que vamos
+float total = 0; // Total de las que llevamos
+float media = 0; // Media de las medidas
+bool primeraMedia = false; // Para saber que ya hemos calculado por lo menos una
 
 void setup()
 {
@@ -21,13 +35,83 @@ void setup()
   pinMode(bombpwm2, OUTPUT);  // Set the PWM2 pin as an output
   analogWrite(bombpwm1, 63);  // Set the PWM1 pin to 63
   analogWrite(bombpwm2, 63);    // Set the PWM2 pin to 63
+  // Ponemos el pin Trig en modo salida
+  pinMode(PinTrig, OUTPUT);
+  // Ponemos el pin Echo en modo entrada
+  pinMode(PinEcho, INPUT);
+  // Inicializamos el array
+  for (int i = 0; i < numLecturas; i++)
+  {
+    lecturas[i] = 0;
+  }
 }
+
+float dist (){
+// Eliminamos la última medida
+  total = total - lecturas[lecturaActual];
+ 
+  iniciarTrigger();
+ 
+  // La función pulseIn obtiene el tiempo que tarda en cambiar entre estados, en este caso a HIGH
+  unsigned long tiempo = pulseIn(PinEcho, HIGH);
+ 
+  // Obtenemos la distancia en cm, hay que convertir el tiempo en segudos ya que está en microsegundos
+  // por eso se multiplica por 0.000001
+  float distancia = tiempo * 0.000001 * VelSon / 2.0;
+ 
+  // Almacenamos la distancia en el array
+  lecturas[lecturaActual] = distancia;
+ 
+  // Añadimos la lectura al total
+  total = total + lecturas[lecturaActual];
+ 
+  // Avanzamos a la siguiente posición del array
+  lecturaActual = lecturaActual + 1;
+ 
+  // Comprobamos si hemos llegado al final del array
+  if (lecturaActual >= numLecturas)
+  {
+    primeraMedia = true;
+    lecturaActual = 0;
+  }
+ 
+  // Calculamos la media
+  media = total / numLecturas;
+ 
+  // Solo mostramos si hemos calculado por lo menos una media
+  if (primeraMedia)
+  {
+    float distanciaLleno = distanciaVacio - media;
+    
+    Serial.print(media);
+    Serial.println(" cm");
+    
+    
+  }
+  return media;
+}
+
+void iniciarTrigger()
+{
+  // Ponemos el Triiger en estado bajo y esperamos 2 ms
+  digitalWrite(PinTrig, LOW);
+  delayMicroseconds(2);
+ 
+  // Ponemos el pin Trigger a estado alto y esperamos 10 ms
+  digitalWrite(PinTrig, HIGH);
+  delayMicroseconds(10);
+ 
+  // Comenzamos poniendo el pin Trigger en estado bajo
+  digitalWrite(PinTrig, LOW);
+}
+
+
 
 void loop()
 {
   String T1 = String(scale.get_units(20),2);    // obtener t1P
   Serial.println(scale.read()); // obtener t1
-  String T2 = String("23");                     // obtener t2P
+  String T2 = String(media);                     // obtener t2P
 
   Serial.print(T1 + "A" + T2);
   delay(1000);

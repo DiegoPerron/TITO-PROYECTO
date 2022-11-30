@@ -100,7 +100,7 @@ float dist()
   {
     float distanciaLleno = distanciaVacio - media;
 
-    Serial.print(media);
+    Serial.println(media);
     Serial.println(" cm");
   }
   return media;
@@ -114,7 +114,7 @@ void loop()
   Serial.println(scale.read());               // obtener t1
   String T2 = String(dist());                  // obtener t2P
 
-  Serial.print(T1 + "A" + T2);
+  Serial.println(T1 + "A" + T2);
   delay(1000);
 
   if (Serial.available())

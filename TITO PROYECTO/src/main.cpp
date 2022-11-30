@@ -3,8 +3,8 @@
 
 const byte hx711_data_pin = A1;  // DOUT
 const byte hx711_clock_pin = A0; // CLK
-const byte bomba1 = 2;
-const byte bomba2 = 3;
+const byte bomba1 = 2;     //bomba que mete agua
+const byte bomba2 = 3;  //bomba que saca agua
 const byte bombpwm1 = 5;         // PWM1
 const byte bombpwm2 = 6;         // PWM2
 HX711 scale;                     // Create an instance of the HX711 class
@@ -119,33 +119,25 @@ void loop()
     caso = Serial.read();
     if (caso == 'A')
     {
-      digitalWrite(7, LOW);
-      digitalWrite(6, LOW);
-      digitalWrite(4, HIGH);
-      digitalWrite(5, HIGH);
+      digitalWrite(bomba1, HIGH);
+      digitalWrite(bomba2, LOW);
     } // sasoa
     if (caso == 'B')
     {
-      digitalWrite(7, LOW);
-      digitalWrite(6, LOW);
-      digitalWrite(4, LOW);
-      digitalWrite(5, LOW);
-    } // casob
+      digitalWrite(bomba1, LOW);
+      digitalWrite(bomba2, LOW);
+    }  // casob
     if (caso == 'C')
     {
-      digitalWrite(4, LOW);
-      digitalWrite(5, LOW);
-      digitalWrite(6, HIGH);
-      digitalWrite(7, HIGH);
+      digitalWrite(bomba1, LOW);
+      digitalWrite(bomba2, HIGH);
     } // casoc
 
     if (caso == 'D')
     {
-      digitalWrite(7, HIGH);
-      digitalWrite(6, HIGH);
-      digitalWrite(4, HIGH);
-      digitalWrite(5, HIGH);
-    } // casob
+      digitalWrite(bomba1, LOW);
+      digitalWrite(bomba2, LOW);
+    } // casoD
   }   // casos
 
 } // void

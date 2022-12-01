@@ -5,7 +5,7 @@ const byte hx711_data_pin = A1;  // DOUT
 const byte hx711_clock_pin = A0; // CLK
 const byte bomba1 = 2;     //bomba que mete agua
 const byte bomba2 = 3;  //bomba que saca agua
-const byte bombpwm1 = 5;         // PWM1
+const byte bombpwm1 = 9;         // PWM1
 const byte bombpwm2 = 6;         // PWM2
 HX711 scale;                     // Create an instance of the HX711 class
 char caso;                       // Variable para el switch

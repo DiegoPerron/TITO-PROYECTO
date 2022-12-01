@@ -38,8 +38,8 @@ void setup()
   Serial.println(scale.get_units(20), 2);       // Read the current value in grams
   pinMode(bombpwm1, OUTPUT);                    // Set the PWM1 pin as an output
   pinMode(bombpwm2, OUTPUT);                    // Set the PWM2 pin as an output
-  analogWrite(bombpwm1, 90);                    // Set the PWM1 pin to 63
-  analogWrite(bombpwm2, 90);                    // Set the PWM2 pin to 63
+  analogWrite(bombpwm1, 120);                    // Set the PWM1 pin to 63
+  analogWrite(bombpwm2, 120);                    // Set the PWM2 pin to 63
   // Ponemos el pin Trig en modo salida
   pinMode(PinTrig, OUTPUT);
   // Ponemos el pin Echo en modo entrada
@@ -123,11 +123,12 @@ float lectura(){
 
 void loop()
 {
-
-  String T2 = String(lectura());                  // obtener t2P
-  //String T1 = String(scale.get_units(20), 2);  obtener 
   
-  String T1 = String(0);
+  String T2 = String(lectura());                  // obtener t2P
+  String T1 = String(scale.get_units(20), 2);  //obtener t1P
+
+
+
 
   Serial.println(T1 + "A" + T2);
 

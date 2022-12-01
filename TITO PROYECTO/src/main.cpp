@@ -3,8 +3,8 @@
 
 const byte hx711_data_pin = A1;  // DOUT
 const byte hx711_clock_pin = A0; // CLK
-const byte bomba1 = 2;     //bomba que mete agua
-const byte bomba2 = 3;  //bomba que saca agua
+const byte bomba1 = 2;           // bomba que mete agua
+const byte bomba2 = 3;           // bomba que saca agua
 const byte bombpwm1 = 9;         // PWM1
 const byte bombpwm2 = 6;         // PWM2
 HX711 scale;                     // Create an instance of the HX711 class
@@ -32,14 +32,14 @@ void setup()
   Serial.begin(9600); // Start serial communication
   // Mandamos comandos para toma de temperatura a los sensores
   scale.begin(hx711_data_pin, hx711_clock_pin); // Initialize the HX711 library
-  scale.set_scale(219715.125);                   // Set the scale factor
+  scale.set_scale(219715.125);                  // Set the scale factor
   Serial.println(scale.read());                 // Read the current value
   scale.tare(0);                                // Tare the scale
   Serial.println(scale.get_units(20), 2);       // Read the current value in grams
   pinMode(bombpwm1, OUTPUT);                    // Set the PWM1 pin as an output
   pinMode(bombpwm2, OUTPUT);                    // Set the PWM2 pin as an output
-  analogWrite(bombpwm1, 120);                    // Set the PWM1 pin to 63
-  analogWrite(bombpwm2, 120);                    // Set the PWM2 pin to 63
+  analogWrite(bombpwm1, 120);                   // Set the PWM1 pin to 63
+  analogWrite(bombpwm2, 120);                   // Set the PWM2 pin to 63
   // Ponemos el pin Trig en modo salida
   pinMode(PinTrig, OUTPUT);
   // Ponemos el pin Echo en modo entrada
@@ -65,53 +65,52 @@ void iniciarTrigger()
   digitalWrite(PinTrig, LOW);
 }
 
-float dist(){
-  
+float dist()
+{
+
   // Eliminamos la última medida
   total = total - lecturas[lecturaActual];
- 
+
   iniciarTrigger();
- 
+
   // La función pulseIn obtiene el tiempo que tarda en cambiar entre estados, en este caso a HIGH
   unsigned long tiempo = pulseIn(PinEcho, HIGH);
- 
+
   // Obtenemos la distancia en cm, hay que convertir el tiempo en segudos ya que está en microsegundos
   // por eso se multiplica por 0.000001
   float distancia = tiempo * 0.000001 * VelSon / 2.0;
- 
+
   // Almacenamos la distancia en el array
   lecturas[lecturaActual] = distancia;
- 
+
   // Añadimos la lectura al total
   total = total + lecturas[lecturaActual];
- 
+
   // Avanzamos a la siguiente posición del array
   lecturaActual = lecturaActual + 1;
- 
+
   // Comprobamos si hemos llegado al final del array
   if (lecturaActual >= numLecturas)
   {
     primeraMedia = true;
     lecturaActual = 0;
   }
- 
+
   // Calculamos la media
   media = total / numLecturas;
- 
+
   // Solo mostramos si hemos calculado por lo menos una media
   if (primeraMedia)
   {
     distanciaLleno = distanciaVacio - media;
-    
-    
-    
   }
   delay(100);
   return distanciaLleno;
 }
 
-float lectura(){
-    for (int i = 0; i < 10; i++)
+float lectura()
+{
+  for (int i = 0; i < 10; i++)
   {
     mediareal = mediareal + dist();
   }
@@ -119,27 +118,20 @@ float lectura(){
   return mediareal;
 }
 
-
-
 void loop()
 {
-  if (state==false){
-  String T2 = String(lectura());                  // obtener t2P
-  String T1 = String(0);  //obtener t1P
-
-
+  if (state == false)
+  {
+    String T2 = String(lectura()); // obtener t2P
+    String T1 = String(0);         // obtener t1P
+    Serial.println(T1 + "A" + T2);
   }
-  if (state==true){
-  String T2 = String(0);                  // obtener t2P
-  String T1 = String(scale.get_units(20), 2);  //obtener t1P
+  if (state == true)
+  {
+    String T2 = String(0);                      // obtener t2P
+    String T1 = String(scale.get_units(20), 2); // obtener t1P
+    Serial.println(T1 + "A" + T2);
   }
-
-
-
-
-
-  Serial.println(T1 + "A" + T2);
-
 
   if (Serial.available())
   {
@@ -153,7 +145,7 @@ void loop()
     {
       digitalWrite(bomba1, LOW);
       digitalWrite(bomba2, LOW);
-    }  // casob
+    } // casob
     if (caso == 'C')
     {
       digitalWrite(bomba1, LOW);
@@ -165,15 +157,15 @@ void loop()
       digitalWrite(bomba1, LOW);
       digitalWrite(bomba2, LOW);
     } // casoD
-    if (caso == "X")
+    if (caso == 'X')
     {
       state = true;
     }
-    if (caso == "Y")
+    if (caso == 'Y')
     {
       state = false;
     }
-    
-  }   // casos
+
+  } // casos
 
 } // void

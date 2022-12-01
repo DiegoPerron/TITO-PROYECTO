@@ -34,7 +34,7 @@ void setup()
   scale.begin(hx711_data_pin, hx711_clock_pin); // Initialize the HX711 library
   scale.set_scale(439430.25);                   // Set the scale factor
   Serial.println(scale.read());                 // Read the current value
-  scale.tare(0);                                // Tare the scale
+  scale.tare(0.1);                                // Tare the scale
   Serial.println(scale.get_units(20), 2);       // Read the current value in grams
   pinMode(bombpwm1, OUTPUT);                    // Set the PWM1 pin as an output
   pinMode(bombpwm2, OUTPUT);                    // Set the PWM2 pin as an output

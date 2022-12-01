@@ -24,6 +24,8 @@ float total = 0;             // Total de las que llevamos
 float media = 0;             // Media de las medidas
 bool primeraMedia = false;   // Para saber que ya hemos calculado por lo menos una
 float distanciaLleno = 0;    // Distancia lleno
+float mediareal = 0;         // Media real
+
 
 void setup()
 {
@@ -63,13 +65,8 @@ void iniciarTrigger()
   digitalWrite(PinTrig, LOW);
 }
 
-
-
-
-
-void loop()
-{
-
+float dist(){
+  
   // Eliminamos la última medida
   total = total - lecturas[lecturaActual];
  
@@ -111,11 +108,29 @@ void loop()
     
     
   }
-  String T2 = String(distanciaLleno);                  // obtener t2P
+  delay(100);
+  return distanciaLleno;
+}
+
+float lectura(){
+    for (int i = 0; i < 10; i++)
+  {
+    mediareal = mediareal + dist();
+  }
+  mediareal = mediareal / 10;
+  return mediareal;
+}
+
+
+
+void loop()
+{
+
+  String T2 = String(lectura());                  // obtener t2P
   String T1 = String(scale.get_units(20), 2); // obtener t1P
 
   Serial.println(T1 + "A" + T2);
-  delay(1000);
+
 
   if (Serial.available())
   {

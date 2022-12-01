@@ -38,8 +38,8 @@ void setup()
   Serial.println(scale.get_units(20), 2);       // Read the current value in grams
   pinMode(bombpwm1, OUTPUT);                    // Set the PWM1 pin as an output
   pinMode(bombpwm2, OUTPUT);                    // Set the PWM2 pin as an output
-  analogWrite(bombpwm1, 63);                    // Set the PWM1 pin to 63
-  analogWrite(bombpwm2, 63);                    // Set the PWM2 pin to 63
+  analogWrite(bombpwm1, 90);                    // Set the PWM1 pin to 63
+  analogWrite(bombpwm2, 90);                    // Set the PWM2 pin to 63
   // Ponemos el pin Trig en modo salida
   pinMode(PinTrig, OUTPUT);
   // Ponemos el pin Echo en modo entrada

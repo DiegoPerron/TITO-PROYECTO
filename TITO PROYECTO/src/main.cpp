@@ -11,6 +11,8 @@ HX711 scale;                     // Create an instance of the HX711 class
 char caso;                       // Variable para el switch
 String cadena = "";              // String para el peso
 String numeroEnString = "0.00";  // String para el peso
+String e = "0";                  // String para el enable
+String m = "0";
 float stp = 0.00;                // Setpoint de peso
 float T2F = 0.00;
 float T1F = 0.00;
@@ -127,9 +129,9 @@ float lectura()
   return mediareal;
 }
 
-float recort_string(String stptemp)
+float recort_string(char* cumbia)
 {
-  stptemp = cadena[3];
+  cumbia = cadena[3];
 
   numeroEnString[0] = cadena[2];
   numeroEnString[1] = cadena[3];
@@ -143,24 +145,24 @@ float recort_string(String stptemp)
   return numeroEnString.toFloat();
 }
 
-String mag_recort(String stptemp)
+String mag_recort(char* cumbia)
 {
-  stptemp = cadena[1];
+  cumbia = cadena[0];
 
-  numeroEnString[0] = cadena[0];
-  numeroEnString[1] = cadena[1];
+  m[0] = cadena[0];
+  m[1] = cadena[1];
 
-  return numeroEnString;
+  return m;
 }
 
-String enable_recort(String stptemp)
+String enable_recort(char* cumbia)
 {
-  stptemp = cadena[0];
+  cumbia = cadena[0];
 
-  numeroEnString[0] = cadena[0];
-  numeroEnString[1] = cadena[1];
+  e[0] = cadena[0];
+  e[1] = cadena[1];
 
-  return numeroEnString;
+  return e;
 }
 
 void loop()
@@ -182,11 +184,17 @@ void loop()
 
   if (Serial.available() > 0)
   {
-    stp = recort_string(Serial.readString());
+    
+    String Lv = Serial.readString();
+    char cumbia[3];
+    Lv.toCharArray(cumbia, 3);
+
+
+    stp = recort_string(cumbia);
     Serial.println(stp);
-    magnitud = mag_recort(Serial.readString());
+    magnitud = mag_recort(cumbia);
     Serial.println(magnitud);
-    enable = enable_recort(Serial.readString());
+    enable = enable_recort(cumbia);
     Serial.println(enable);
 
     if (enable == "1"){

@@ -183,8 +183,11 @@ void loop()
   if (Serial.available() > 0)
   {
     stp = recort_string(Serial.readString());
+    Serial.println(stp);
     magnitud = mag_recort(Serial.readString());
+    Serial.println(magnitud);
     enable = enable_recort(Serial.readString());
+    Serial.println(enable);
 
     if (enable == "1"){
       //---Habilita control

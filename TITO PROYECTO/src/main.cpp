@@ -115,7 +115,7 @@ float dist()
   {
     distanciaLleno = distanciaVacio - media;
   }
-  delay(100);
+  delay(10);
   return distanciaLleno;
 }
 

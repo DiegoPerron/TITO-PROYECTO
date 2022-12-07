@@ -13,7 +13,7 @@ String cadena = "";              // String para el peso
 String numeroEnString = "0.00";  // String para el peso
 String e = "0";                  // String para el enable
 String m = "0";
-float stp = 0.00;                // Setpoint de peso
+float stp = 0.00; // Setpoint de peso
 float T2F = 0.00;
 float T1F = 0.00;
 char caracter;
@@ -35,7 +35,7 @@ float media = 0;             // Media de las medidas
 bool primeraMedia = false;   // Para saber que ya hemos calculado por lo menos una
 float distanciaLleno = 0;    // Distancia lleno
 float mediareal = 0;         // Media real
-bool state = true;          // Estado de la medicion
+bool state = true;           // Estado de la medicion
 String stptemp = "";         // Setpoint de temperatura temp
 
 void setup()
@@ -129,42 +129,6 @@ float lectura()
   return mediareal;
 }
 
-float recort_string(char* cumbia)
-{
-  cumbia = cadena[3];
-
-  numeroEnString[0] = cadena[2];
-  numeroEnString[1] = cadena[3];
-  numeroEnString[2] = cadena[4];
-  numeroEnString[3] = cadena[5];
-  numeroEnString[4] = cadena[6];
-  numeroEnString[5] = cadena[7];
-  numeroEnString[6] = cadena[8];
-  numeroEnString[7] = cadena[9];
-
-  return numeroEnString.toFloat();
-}
-
-String mag_recort(char* cumbia)
-{
-  cumbia = cadena[0];
-
-  m[0] = cadena[0];
-  m[1] = cadena[1];
-
-  return m;
-}
-
-String enable_recort(char* cumbia)
-{
-  cumbia = cadena[0];
-
-  e[0] = cadena[0];
-  e[1] = cadena[1];
-
-  return e;
-}
-
 void loop()
 {
   if (state == false)
@@ -184,20 +148,31 @@ void loop()
 
   if (Serial.available() > 0)
   {
-    
-    String Lv = Serial.readString();
-    char cumbia[3];
-    Lv.toCharArray(cumbia, 3);
 
+    String cadena = Serial.readString();
+    String numeroEnString = "0.00";
+    String Enable = "0";
+    String magnitud = "0";
+    caracter = cadena[0];
 
-    stp = recort_string(cumbia);
-    Serial.println(stp);
-    magnitud = mag_recort(cumbia);
-    Serial.println(magnitud);
-    enable = enable_recort(cumbia);
-    Serial.println(enable);
+    Enable[0] = cadena[0];
+    magnitud[0] = cadena[1];
+    numeroEnString[0] = cadena[2];
+    numeroEnString[1] = cadena[3];
+    numeroEnString[2] = cadena[4];
+    numeroEnString[3] = cadena[5];
+    numeroEnString[4] = cadena[6];
+    numeroEnString[5] = cadena[7];
+    numeroEnString[6] = cadena[8];
+    numeroEnString[7] = cadena[9];
+    // Enable[0] = cadena[2];
+    // Enable[1] = cadena[3];
+    enable = Enable;
+    magnitud = magnitud;
+    stp = numeroEnString.toFloat();
 
-    if (enable == "1"){
+    if (enable == "1")
+    {
       //---Habilita control
       if (magnitud == "N")
       {
@@ -218,13 +193,13 @@ void loop()
           digitalWrite(bomba1, HIGH);
           digitalWrite(bomba2, LOW);
         }
-
       }
       else if (magnitud == "P")
       {
         //---Control de peso
         state = true;
-        if (T1F > (stp + 0.025)){
+        if (T1F > (stp + 0.025))
+        {
           digitalWrite(bomba1, LOW);
           digitalWrite(bomba2, HIGH);
         }
@@ -240,7 +215,8 @@ void loop()
         }
       }
     }
-    else if (enable == "0"){
+    else if (enable == "0")
+    {
       //---Deshabilita control
       digitalWrite(bomba1, LOW);
       digitalWrite(bomba2, LOW);

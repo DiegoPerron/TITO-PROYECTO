@@ -9,10 +9,10 @@ const byte bombpwm1 = 9;         // PWM1
 const byte bombpwm2 = 6;         // PWM2
 HX711 scale;                     // Create an instance of the HX711 class
 char caso;                       // Variable para el switch
-String cadena = "1N9.9754657889";
-String numeroEnString = "0.00";
-float stp = 0.00;
-String T2 = "";
+String cadena = "";  // String para el peso
+String numeroEnString = "0.00";  // String para el peso
+float stp = 0.00;              // Setpoint de peso
+String T2 = "";             
 float T2F = 0.00;
 float T1F = 0.00;
 String T1 = "";

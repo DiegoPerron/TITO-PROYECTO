@@ -33,7 +33,7 @@ float media = 0;             // Media de las medidas
 bool primeraMedia = false;   // Para saber que ya hemos calculado por lo menos una
 float distanciaLleno = 0;    // Distancia lleno
 float mediareal = 0;         // Media real
-bool state = false;          // Estado de la medicion
+bool state = true;          // Estado de la medicion
 String stptemp = "";         // Setpoint de temperatura temp
 
 void setup()
@@ -168,15 +168,15 @@ void loop()
   if (state == false)
   {
     String T2 = String(lectura()); // obtener t2P
-    //T2F = T2.toFloat();
+    T2F = T2.toFloat();
     String T1 = String(0); // obtener t1P
     Serial.println(T1 + "A" + T2);
   }
-  else if (state == true)
+  if (state == true)
   {
     String T2 = String(0);                      // obtener t2P
     String T1 = String(scale.get_units(20), 2); // obtener t1P
-    //T1F = T1.toFloat();
+    T1F = T1.toFloat();
     Serial.println(T1 + "A" + T2);
   }
 

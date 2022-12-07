@@ -9,10 +9,10 @@ const byte bombpwm1 = 9;         // PWM1
 const byte bombpwm2 = 6;         // PWM2
 HX711 scale;                     // Create an instance of the HX711 class
 char caso;                       // Variable para el switch
-String cadena = "";  // String para el peso
+String cadena = "";              // String para el peso
 String numeroEnString = "0.00";  // String para el peso
-float stp = 0.00;              // Setpoint de peso
-String T2 = "";             
+float stp = 0.00;                // Setpoint de peso
+String T2 = "";
 float T2F = 0.00;
 float T1F = 0.00;
 String T1 = "";
@@ -145,7 +145,7 @@ float recort_string(String stptemp)
   return numeroEnString.toFloat();
 }
 
-String mag_recort (String stptemp)
+String mag_recort(String stptemp)
 {
   stptemp = cadena[1];
 
@@ -155,7 +155,7 @@ String mag_recort (String stptemp)
   return numeroEnString;
 }
 
-String enable_recort (String stptemp)
+String enable_recort(String stptemp)
 {
   stptemp = cadena[0];
 
@@ -174,7 +174,7 @@ void loop()
     T1 = String(0); // obtener t1P
     Serial.println(T1 + "A" + T2);
   }
-  if (state == true)
+  else if (state == true)
   {
     T2 = String(0);                      // obtener t2P
     T1 = String(scale.get_units(20), 2); // obtener t1P
@@ -209,25 +209,27 @@ void loop()
           digitalWrite(bomba1, HIGH);
           digitalWrite(bomba2, LOW);
         }
+
       }
-      else
+      if (magnitud == "P")
       {
         //---Control de peso
         state = true;
-        if (T1F > (stp + 0.025))
+        if (T1F > (stp + 0.025)){
           digitalWrite(bomba1, LOW);
-        digitalWrite(bomba2, HIGH);
+          digitalWrite(bomba2, HIGH);
+        }
+        else if (T1F > (stp - 0.025) && T1F < (stp + 0.025))
+        {
+          digitalWrite(bomba1, LOW);
+          digitalWrite(bomba2, LOW);
+        }
+        else if (T1F < (stp - 0.025))
+        {
+          digitalWrite(bomba1, HIGH);
+          digitalWrite(bomba2, LOW);
+        }
       }
-    else if (T1F > (stp - 0.025) && T1F < (stp + 0.025))
-    {
-      digitalWrite(bomba1, LOW);
-      digitalWrite(bomba2, LOW);
-    }
-    else if (T1F < (stp - 0.025))
-    {
-      digitalWrite(bomba1, HIGH);
-      digitalWrite(bomba2, LOW);
-    }
   }
   else
   {

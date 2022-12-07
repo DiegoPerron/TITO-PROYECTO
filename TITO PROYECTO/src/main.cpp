@@ -209,7 +209,7 @@ void loop()
         }
 
       }
-      if (magnitud == "P")
+      else if (magnitud == "P")
       {
         //---Control de peso
         state = true;
@@ -229,9 +229,8 @@ void loop()
         }
       }
     }
-  }
-    else
-    {
+    else if (enable == "0"){
+      //---Deshabilita control
       digitalWrite(bomba1, LOW);
       digitalWrite(bomba2, LOW);
     }

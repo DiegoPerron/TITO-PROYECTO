@@ -170,7 +170,7 @@ void loop()
   if (state == false)
   {
     T2 = String(lectura()); // obtener t2P
-    T2F = T2.toFloat();
+    //T2F = T2.toFloat();
     T1 = String(0); // obtener t1P
     Serial.println(T1 + "A" + T2);
   }
@@ -178,7 +178,7 @@ void loop()
   {
     T2 = String(0);                      // obtener t2P
     T1 = String(scale.get_units(20), 2); // obtener t1P
-    T1F = T1.toFloat();
+    //T1F = T1.toFloat();
     Serial.println(T1 + "A" + T2);
   }
 

@@ -237,4 +237,5 @@ void loop()
       digitalWrite(bomba1, LOW);
       digitalWrite(bomba2, LOW);
     }
+  }
 } // void

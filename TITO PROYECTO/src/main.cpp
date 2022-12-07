@@ -12,10 +12,8 @@ char caso;                       // Variable para el switch
 String cadena = "";              // String para el peso
 String numeroEnString = "0.00";  // String para el peso
 float stp = 0.00;                // Setpoint de peso
-String T2 = "";
 float T2F = 0.00;
 float T1F = 0.00;
-String T1 = "";
 char caracter;
 String enable = "";
 String magnitud = "";
@@ -169,15 +167,15 @@ void loop()
 {
   if (state == false)
   {
-    T2 = String(lectura()); // obtener t2P
+    String T2 = String(lectura()); // obtener t2P
     //T2F = T2.toFloat();
-    T1 = String(0); // obtener t1P
+    String T1 = String(0); // obtener t1P
     Serial.println(T1 + "A" + T2);
   }
   else if (state == true)
   {
-    T2 = String(0);                      // obtener t2P
-    T1 = String(scale.get_units(20), 2); // obtener t1P
+    String T2 = String(0);                      // obtener t2P
+    String T1 = String(scale.get_units(20), 2); // obtener t1P
     //T1F = T1.toFloat();
     Serial.println(T1 + "A" + T2);
   }
@@ -188,7 +186,7 @@ void loop()
     magnitud = mag_recort(Serial.readString());
     enable = enable_recort(Serial.readString());
 
-    if (enable == "1")
+    if (enable == "1"){
       //---Habilita control
       if (magnitud == "N")
       {
@@ -230,10 +228,11 @@ void loop()
           digitalWrite(bomba2, LOW);
         }
       }
+    }
   }
-  else
-  {
-    digitalWrite(bomba1, LOW);
-    digitalWrite(bomba2, LOW);
-  }
+    else
+    {
+      digitalWrite(bomba1, LOW);
+      digitalWrite(bomba2, LOW);
+    }
 } // void

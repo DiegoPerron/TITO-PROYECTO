@@ -135,12 +135,12 @@ void loop()
   {
     String T2 = String(lectura()); // obtener t2P
     T2F = T2.toFloat();
-    String T1 = String(0); // obtener t1P
+    String T1 = String(0.1); // obtener t1P
     Serial.println(T1 + "A" + T2);
   }
   if (state == true)
   {
-    String T2 = String(0);                      // obtener t2P
+    String T2 = String(0.1);                      // obtener t2P
     String T1 = String(scale.get_units(20), 2); // obtener t1P
     T1F = T1.toFloat();
     Serial.println(T1 + "A" + T2);
